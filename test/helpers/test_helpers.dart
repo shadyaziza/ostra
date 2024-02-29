@@ -3,6 +3,7 @@ import 'package:mockito/mockito.dart';
 import 'package:ostra/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:ostra/services/theme_service.dart';
+import 'package:ostra/services/activities_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -12,6 +13,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<BottomSheetService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<ThemeService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<ActivitiesService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -19,6 +21,7 @@ void registerServices() {
   getAndRegisterBottomSheetService();
   getAndRegisterDialogService();
   getAndRegisterThemeService();
+  getAndRegisterActivitiesService();
 // @stacked-mock-register
 }
 
@@ -76,6 +79,13 @@ MockThemeService getAndRegisterThemeService() {
   _removeRegistrationIfExists<ThemeService>();
   final service = MockThemeService();
   locator.registerSingleton<ThemeService>(service);
+  return service;
+}
+
+MockActivitiesService getAndRegisterActivitiesService() {
+  _removeRegistrationIfExists<ActivitiesService>();
+  final service = MockActivitiesService();
+  locator.registerSingleton<ActivitiesService>(service);
   return service;
 }
 // @stacked-mock-create

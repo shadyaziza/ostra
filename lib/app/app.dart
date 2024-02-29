@@ -6,6 +6,7 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:ostra/ui/views/timer/timer_view.dart';
 import 'package:ostra/services/theme_service.dart';
+import 'package:ostra/services/activities_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -20,6 +21,7 @@ import 'package:ostra/services/theme_service.dart';
     LazySingleton(classType: DialogService),
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: ThemeService),
+    LazySingleton(classType: ActivitiesService),
 // @stacked-service
   ],
   bottomsheets: [

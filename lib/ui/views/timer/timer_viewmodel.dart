@@ -14,28 +14,52 @@ class TimerViewModel extends ReactiveViewModel {
   @override
   List<ListenableServiceMixin> get listenableServices => [_themeService];
 
-  final BehaviorSubject<String> _subject = BehaviorSubject<String>();
-
-  String get elapsedValue => _subject.valueOrNull ?? 0.asHumanReadableTime;
-
-// TODO(shadyaziza): create a formatter
-  String get elapsed => elapsedValue.toString();
-
-  String _value = 0.asHumanReadableTime;
+  String _value = "00:00:00";
+  int _elapsedSeconds = 0; // Added to track elapsed time for pause/resume
 
   String get value => _value;
 
+  Timer? _timer;
+
+  bool get isActive => _timer?.isActive ?? false;
+
+  bool _isPaused = false;
+
+  bool get isPaused => _isPaused;
+
   void startTimer() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      _subject.add(timer.tick.asHumanReadableTime);
-      _value = timer.tick.asHumanReadableTime;
-      rebuildUi();
-    });
+    if (!(_timer?.isActive ?? false)) {
+      _isPaused = false;
+      _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+        _elapsedSeconds++;
+        _value = _elapsedSeconds.asHumanReadableTime;
+        rebuildUi();
+      });
+    }
+  }
+
+  void pauseTimer() {
+    _isPaused = true;
+    _timer?.cancel();
+    rebuildUi();
+  }
+
+  void resumeTimer() {
+    // No need to check if timer is active, as pause should have already cancelled it
+    startTimer();
+  }
+
+  void stopTimer() {
+    _timer?.cancel();
+    _timer = null;
+    _elapsedSeconds = 0; // Reset elapsed seconds on stop
+    _value = _elapsedSeconds.asHumanReadableTime; // Reset the display value
+    rebuildUi();
   }
 
   @override
   void dispose() {
-    _subject.close();
+    _timer?.cancel();
     super.dispose();
   }
 }

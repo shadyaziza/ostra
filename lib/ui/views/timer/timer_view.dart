@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ostra/app/app.locator.dart';
 import 'package:ostra/services/theme_service.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+
 import 'package:stacked/stacked.dart';
 
 import 'timer_viewmodel.dart';
@@ -14,24 +16,99 @@ class TimerView extends StackedView<TimerViewModel> {
     TimerViewModel viewModel,
     Widget? child,
   ) {
+    final themeService = locator<ThemeService>();
     return Scaffold(
-      appBar: AppBar(actions: [
-        TextButton(
-          onPressed: locator<ThemeService>().toggleTheme,
-          child: const Text('Theme'),
+      appBar: AppBar(
+        title: Text(
+          'Ostra',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primary,
+              ),
         ),
-      ]),
-      floatingActionButton:
-          FloatingActionButton(onPressed: viewModel.startTimer),
-      body: Center(
-        child: CircularBorderedGradient(
-          child: Text(
-            viewModel.value,
-            style: const TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
+        centerTitle: false,
+        actions: [
+          TextButton(
+            onPressed: themeService.toggleTheme,
+            child: PhosphorIcon(
+              themeService.isDark
+                  ? PhosphorIcons.sun(PhosphorIconsStyle.duotone)
+                  : PhosphorIcons.moon(PhosphorIconsStyle.duotone),
+              color: themeService.isDark
+                  ? Colors.amberAccent
+                  : Theme.of(context).onSurface,
+              size: 32,
             ),
           ),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        height: 82,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              onPressed: (!viewModel.isActive) || viewModel.isPaused
+                  ? viewModel.resumeTimer
+                  : null,
+              icon: PhosphorIcon(
+                PhosphorIcons.play(PhosphorIconsStyle.duotone),
+                color: (!viewModel.isActive) || viewModel.isPaused
+                    ? Theme.of(context).primary
+                    : null,
+                size: 32,
+              ),
+            ),
+            IconButton(
+              onPressed: viewModel.isActive ? viewModel.pauseTimer : null,
+              icon: PhosphorIcon(
+                PhosphorIcons.pause(PhosphorIconsStyle.duotone),
+                color: viewModel.isActive ? Theme.of(context).primary : null,
+                size: 32,
+              ),
+            ),
+            IconButton(
+              onPressed: viewModel.isActive || viewModel.isPaused
+                  ? viewModel.stopTimer
+                  : null,
+              icon: PhosphorIcon(
+                PhosphorIcons.stop(PhosphorIconsStyle.duotone),
+                color: viewModel.isActive || viewModel.isPaused
+                    ? Theme.of(context).primary
+                    : null,
+                size: 32,
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 32),
+        child: Column(
+          children: [
+            InkWell(
+              customBorder: const CircleBorder(),
+              onTap: viewModel.startTimer,
+              child: Center(
+                child: CircularBorderedGradient(
+                  child: Text(
+                    viewModel.value,
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const Spacer(),
+          ],
         ),
       ),
     );

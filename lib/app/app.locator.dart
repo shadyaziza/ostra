@@ -11,6 +11,7 @@ import 'package:stacked_services/src/dialog/dialog_service.dart';
 import 'package:stacked_services/src/navigation/navigation_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 
+import '../services/activities_service.dart';
 import '../services/theme_service.dart';
 
 final locator = StackedLocator.instance;
@@ -27,5 +28,6 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => BottomSheetService());
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => NavigationService());
-  locator.registerLazySingleton(() => ThemeService(colors: DarkAppColors()));
+  locator.registerLazySingleton(() => ThemeService());
+  locator.registerLazySingleton(() => ActivitiesService());
 }
