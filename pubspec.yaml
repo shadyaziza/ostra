@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  rxdart: ^0.27.7
   stacked: ^3.4.0
   stacked_services: ^1.1.0
 

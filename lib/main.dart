@@ -3,6 +3,8 @@ import 'package:ostra/app/app.bottomsheets.dart';
 import 'package:ostra/app/app.dialogs.dart';
 import 'package:ostra/app/app.locator.dart';
 import 'package:ostra/app/app.router.dart';
+import 'package:ostra/services/theme_service.dart';
+import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 Future<void> main() async {
@@ -13,12 +15,15 @@ Future<void> main() async {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StackedView<MainAppViewModel> {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(
+      BuildContext context, MainAppViewModel viewModel, Widget? child) {
+    // TODO(shadyaziza): inject this global
     return MaterialApp(
+      theme: viewModel.themeData,
       initialRoute: Routes.startupView,
       onGenerateRoute: StackedRouter().onGenerateRoute,
       navigatorKey: StackedService.navigatorKey,
@@ -27,4 +32,16 @@ class MainApp extends StatelessWidget {
       ],
     );
   }
+
+  @override
+  MainAppViewModel viewModelBuilder(BuildContext context) => MainAppViewModel();
+}
+
+class MainAppViewModel extends ReactiveViewModel {
+  final ThemeService _themeService = locator<ThemeService>();
+
+  ThemeData get themeData => _themeService.themeData;
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_themeService];
 }
