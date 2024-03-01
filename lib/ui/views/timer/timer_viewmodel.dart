@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:ostra/app/app.locator.dart';
 import 'package:ostra/services/theme_service.dart';
-import 'package:rxdart/subjects.dart';
 import 'package:stacked/stacked.dart';
 
 class TimerViewModel extends ReactiveViewModel {

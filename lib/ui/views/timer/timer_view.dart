@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ostra/app/app.locator.dart';
+import 'package:ostra/services/activities_service.dart';
 import 'package:ostra/services/theme_service.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -73,8 +74,8 @@ class TimerView extends StackedView<TimerViewModel> {
                 size: 32,
               ),
             ),
-            IconButton(
-              onPressed: viewModel.isActive || viewModel.isPaused
+            StopAndSaveActivityIconWidget(
+              onSave: viewModel.isActive || viewModel.isPaused
                   ? viewModel.stopTimer
                   : null,
               icon: PhosphorIcon(
@@ -84,7 +85,7 @@ class TimerView extends StackedView<TimerViewModel> {
                     : null,
                 size: 32,
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -107,7 +108,7 @@ class TimerView extends StackedView<TimerViewModel> {
                 ),
               ),
             ),
-            const Spacer(),
+            const Expanded(child: ActivityListWidget()),
           ],
         ),
       ),
@@ -180,4 +181,65 @@ class CircleBorderGradientPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
+class StopAndSaveActivityIconWidget extends StackedView<SaveActivityViewModel> {
+  const StopAndSaveActivityIconWidget(
+      {super.key, required this.onSave, required this.icon});
+
+  final VoidCallback? onSave;
+  final Widget icon;
+
+  @override
+  Widget builder(BuildContext context, viewModel, Widget? child) {
+    return IconButton(
+      onPressed: () {
+        onSave?.call();
+        viewModel.saveActivity('str');
+      },
+      icon: icon,
+    );
+  }
+
+  @override
+  viewModelBuilder(BuildContext context) => SaveActivityViewModel();
+}
+
+class SaveActivityViewModel extends ReactiveViewModel {
+  final ActivitiesService _activitiesService = locator<ActivitiesService>();
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_activitiesService];
+
+  void saveActivity(String str) {
+    _activitiesService.add(DateTime.now().toString());
+    rebuildUi();
+  }
+}
+
+class ActivityListWidget extends StackedView<ActivityListViewModel> {
+  const ActivityListWidget({super.key});
+
+  @override
+  Widget builder(BuildContext context, viewModel, Widget? child) {
+    if (viewModel.list.isEmpty) return const Text('no activity');
+    return ListView.builder(
+      itemCount: viewModel.list.length,
+      itemBuilder: (context, index) {
+        return Text(viewModel.list[index]);
+      },
+    );
+  }
+
+  @override
+  viewModelBuilder(BuildContext context) => ActivityListViewModel();
+}
+
+class ActivityListViewModel extends ReactiveViewModel {
+  final ActivitiesService _activitiesService = locator<ActivitiesService>();
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_activitiesService];
+
+  List<String> get list => _activitiesService.activities;
 }
