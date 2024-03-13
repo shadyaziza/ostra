@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:ostra/models/activities_model.dart';
 import 'package:stacked/stacked.dart';
 
 class ActivitiesService with ListenableServiceMixin {
@@ -7,11 +6,11 @@ class ActivitiesService with ListenableServiceMixin {
     listenToReactiveValues([_activities]);
   }
 
-  final List<String> _activities = [];
+  final List<ActivityModel> _activities = [];
 
-  List<String> get activities => _activities;
+  List<ActivityModel> get activities => _activities;
 
-  void add(String str) {
+  void add(ActivityModel str) {
     activities.add(str);
     notifyListeners();
   }
