@@ -1,3 +1,3 @@
-import 'package:stacked/stacked.dart';
+// import 'package:stacked/stacked.dart';
 
-class InfoAlertDialogModel extends BaseViewModel {}
+// class InfoAlertDialogModel extends BaseViewModel {}

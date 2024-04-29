@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ostra/ui/views/timer/timer.dart';
-import 'package:stacked/stacked.dart';
 
-class StopTimerButton extends StackedView<ActivityListViewModel> {
+class StopTimerButton extends StatelessWidget {
   const StopTimerButton({
     super.key,
     required this.onSave,
@@ -15,23 +14,22 @@ class StopTimerButton extends StackedView<ActivityListViewModel> {
   final int timeElapsed;
 
   @override
-  Widget builder(BuildContext context, viewModel, Widget? child) {
+  Widget build(
+    BuildContext context,
+  ) {
     return IconButton(
       onPressed: onSave == null
           ? null
           : () {
               onSave?.call();
-              viewModel.saveActivity(
-                'title',
-                'desc',
-                // TODO(shadyaziza): what the hell is time elapsed :D
-                timeElapsed,
-              );
+              // viewModel.saveActivity(
+              //   'title',
+              //   'desc',
+              //   // TODO(shadyaziza): what the hell is time elapsed :D
+              //   timeElapsed,
+              // );
             },
       icon: icon,
     );
   }
-
-  @override
-  viewModelBuilder(BuildContext context) => ActivityListViewModel();
 }

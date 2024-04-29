@@ -1,3 +1,3 @@
-import 'package:stacked/stacked.dart';
+// import 'package:stacked/stacked.dart';
 
-class NoticeSheetModel extends BaseViewModel {}
+// class NoticeSheetModel extends BaseViewModel {}
