@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:ostra/services/theme_service.dart';
-import 'package:ostra/src/core/theme/theme.dart';
+import 'package:ostra/src/component_library/component_library.dart';
+import 'package:ostra/src/component_library/src/theme/theme_controller.dart';
 import 'package:ostra/src/features/time_tracker_home/src/time_tracker_controller.dart';
 import 'package:ostra/ui/common/common.dart';
 import 'package:ostra/ui/views/timer/timer.dart';
@@ -52,7 +53,7 @@ class TimeTrackerScreen extends ConsumerWidget {
             ),
             StopTimerButton(
               timeElapsed: 20,
-              onSave: isActive || isPaused ? controller.stopTimer : null,
+              onPressed: isActive || isPaused ? controller.stopTimer : null,
               icon: PhosphorIcon(
                 PhosphorIcons.stop(PhosphorIconsStyle.duotone),
                 color: isActive || isPaused ? Theme.of(context).primary : null,
@@ -156,7 +157,7 @@ class ThemeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeService = ref.watch(themeServiceProvider);
+    final themeService = ref.watch(themeControllerProvider);
     return TextButton(
       onPressed: themeService.toggleTheme,
       child: PhosphorIcon(

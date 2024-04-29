@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:ostra/src/common/common.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-part 'theme.g.dart';
+// TODO(shadyaziza): add theme preferences (system-forceDark-forceLight)
 
-@riverpod
-ThemeService themeService(ThemeServiceRef ref) => ThemeService();
+// TODO(shadyaziza): consider changing this into a [Notifier] with state class
 
-class ThemeService {
-  ThemeService();
+final themeControllerProvider =
+    ChangeNotifierProvider((ref) => ThemeController());
+
+class ThemeController extends ChangeNotifier {
+  ThemeController();
 
   AppColors get lightColors => LightAppColors();
   AppColors get darkColors => DarkAppColors();
@@ -21,12 +23,14 @@ class ThemeService {
   void toggleTheme() {
     if (_themeData == darkTheme) {
       _themeData = lightTheme;
+      notifyListeners();
 
       return;
     }
 
     if (_themeData == lightTheme) {
       _themeData = darkTheme;
+      notifyListeners();
 
       return;
     }

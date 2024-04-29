@@ -4,6 +4,8 @@ import 'dart:ui';
 
 import 'package:collection/collection.dart';
 
+// TODO(shadyaziza): use json_serilaziable ?
+
 class ActivityModel {
   final String title;
   final String description;
