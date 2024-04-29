@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:ostra/services/theme_service.dart';
 import 'package:ostra/src/component_library/component_library.dart';
-import 'package:ostra/src/component_library/src/theme/theme_controller.dart';
 import 'package:ostra/src/features/time_tracker_home/src/time_tracker_controller.dart';
 import 'package:ostra/ui/common/common.dart';
-import 'package:ostra/ui/views/timer/timer.dart';
 import 'package:ostra/utils/utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -21,7 +18,6 @@ class TimeTrackerScreen extends ConsumerWidget {
     final timeTrackerValue = ref.watch(timeTrackerControllerProvider).time;
     final isActive = ref.watch(timeTrackerControllerProvider).isActive;
     final isPaused = ref.watch(timeTrackerControllerProvider).isPaused;
-    final isStopped = ref.watch(timeTrackerControllerProvider).isStopped;
 
     return Scaffold(
       appBar: AppBar(

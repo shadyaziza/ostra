@@ -28,7 +28,7 @@ class ActivityModel {
   });
 
   ActivityModel copyWith({
-    String? name,
+    String? title,
     String? description,
     String? backgroundColor,
     String? textColor,
@@ -38,7 +38,7 @@ class ActivityModel {
     DateTime? end,
   }) {
     return ActivityModel(
-      title: name ?? this.title,
+      title: title ?? this.title,
       description: description ?? this.description,
       backgroundColor: backgroundColor ?? this.backgroundColor,
       textColor: textColor ?? this.textColor,
@@ -126,22 +126,22 @@ extension ColorEx on Color {
 extension StringEx on String {
   Color get hexToColor {
     // Remove the '#' character if it exists
-    var str = this.replaceFirst('#', '');
+    var str = replaceFirst('#', '');
 
     // Check for valid hex string length
     if (str.length != 6 && str.length != 8) {
-      throw FormatException(
+      throw const FormatException(
           'Invalid hex string length. Must be 6 or 8 characters long.');
     }
 
     // Add 'ff' for opacity if length is 6
     if (str.length == 6) {
-      str = 'ff' + str;
+      str = 'ff$str';
     }
 
     // Check if the string contains only valid hex characters
     if (!RegExp(r'^[0-9a-fA-F]+$').hasMatch(str)) {
-      throw FormatException(
+      throw const FormatException(
           'Invalid hex string. Contains non-hexadecimal characters.');
     }
 
@@ -149,7 +149,8 @@ extension StringEx on String {
       return Color(int.parse(str, radix: 16));
     } catch (e) {
       // Handle any other errors
-      throw FormatException('Failed to parse the hex string into a Color.');
+      throw const FormatException(
+          'Failed to parse the hex string into a Color.');
     }
   }
 }
