@@ -5,6 +5,7 @@ import 'package:ostra/src/core/router/router.dart';
 import 'src/common/common.dart';
 
 // TODO(shadyaziza): add app startup widget
+// TODO(shadyaziza): create generated assets pkg
 void main() {
   runApp(const ProviderScope(child: MainApp()));
 }
